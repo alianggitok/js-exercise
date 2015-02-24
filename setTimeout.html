@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script src="js/jquery.1.8.2.min.js"></script>
+<script>
+$(function(){
+	setInterval(function(){
+			console.log('interval');
+	},1000);
+
+	setTimeout(function(){
+			console.log('timeout');
+	},1000);
+
+	for(var i=0,len=1000;i<len; i++){
+		console.log(i);
+	}
+	
+});
+</script>
+</head>
+
+<body>
+	
+</body>
+</html>
+

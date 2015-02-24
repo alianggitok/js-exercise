@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+	window.onload=function(){
+		var bodyElement=document.getElementsByTagName('body')[0],
+			bodyChildElement=bodyElement.childNodes,
+			bodyChildElementLen=bodyChildElement.length;
+			alert('bodyChildElementLen: '+bodyChildElementLen),
+			node=undefined,
+			i=0,
+			timer=null,
+			timerFrequency=100;
+		timer=setInterval(function(){
+			node=bodyChildElement[i];
+			console.log('==>'+i+', nodeType: '+node.nodeType+(node.nodeType===1?', value: '+node.firstChild.nodeValue:''));
+			if (node.nodeType===1) {
+				node.firstChild.nodeValue='done';
+			}
+			i+=1;
+			if (i>=bodyChildElementLen) {
+				clearInterval(timer);
+				timer=null;
+				alert('stop');
+			}
+		},timerFrequency);
+	};
+	
+</script>
+</head>
+
+<body>
+	h2
+	<div>text</div>
+	<a>link</a>
+</body>
+</html>
+

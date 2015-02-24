@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script src="js/jquery.1.8.2.min.js"></script>
+<script>
+console.log('Type of undefined: '+typeof undefined);
+console.log('Type of null: '+typeof null);
+console.log('null===undefined: '+(null===undefined));
+console.log('null==undefined: '+(null==undefined));
+
+var dom = document.getElementById('domId');
+console.log('Does it have "domId" element? '+dom);
+
+console.log('parseInt(null): '+parseInt(null));
+console.log('parseInt(undefined): '+parseInt(undefined));
+
+
+</script>
+</head>
+
+<body>
+	<p>null 表示一个值被定义了，定义为“空值”；<br>
+		undefined 表示根本不存在定义。<br>
+		所以设置一个值为 null 是合理的。</p>
+	<p>“若你尝试对某元素引用一个该元素并不支持的事件，你会发现该元素的'on事件名'属性是undefined。但如果某事件被该元素所支持，但事件处理函数没设置，那么'on事件名'是null。”</p>
+	<p>函数中没有return，则默认undefined。</p>
+</body>
+</html>
+
