@@ -5,27 +5,32 @@
 <title>Page Title</title>
 <script src="js/jquery.1.8.2.min.js"></script>
 <script>
-console.log('Type of undefined: '+typeof undefined);
-console.log('Type of null: '+typeof null);
-console.log('null===undefined: '+(null===undefined));
-console.log('null==undefined: '+(null==undefined));
+	console.log('Type of undefined: '+typeof undefined);//undefined
+	console.log('Type of null: '+typeof null);//object
+	console.log('null===undefined: '+(null===undefined));//false
+	console.log('null==undefined: '+(null==undefined));//true
 
-var dom = document.getElementById('domId');
-console.log('Does it have "domId" element? '+dom);
+	console.log('====================');
+	var dom = document.getElementById('domId');
+	console.log('Does it have "domId" element? '+dom);//null
 
-console.log('parseInt(null): '+parseInt(null));
-console.log('parseInt(undefined): '+parseInt(undefined));
+	console.log('====================');
+	console.log('parseInt(null): '+parseInt(null));//NaN
+	console.log('parseInt(undefined): '+parseInt(undefined));//NaN
 
-
+	console.log('====================');
+	console.log(11+null);//11
+	console.log(11+undefined);//NaN
+	
 </script>
 </head>
 
 <body>
-	<p>null ±íÊ¾Ò»¸öÖµ±»¶¨ÒåÁË£¬¶¨ÒåÎª¡°¿ÕÖµ¡±£»<br>
-		undefined ±íÊ¾¸ù±¾²»´æÔÚ¶¨Òå¡£<br>
-		ËùÒÔÉèÖÃÒ»¸öÖµÎª null ÊÇºÏÀíµÄ¡£</p>
-	<p>¡°ÈôÄã³¢ÊÔ¶ÔÄ³ÔªËØÒıÓÃÒ»¸ö¸ÃÔªËØ²¢²»Ö§³ÖµÄÊÂ¼ş£¬Äã»á·¢ÏÖ¸ÃÔªËØµÄ'onÊÂ¼şÃû'ÊôĞÔÊÇundefined¡£µ«Èç¹ûÄ³ÊÂ¼ş±»¸ÃÔªËØËùÖ§³Ö£¬µ«ÊÂ¼ş´¦Àíº¯ÊıÃ»ÉèÖÃ£¬ÄÇÃ´'onÊÂ¼şÃû'ÊÇnull¡£¡±</p>
-	<p>º¯ÊıÖĞÃ»ÓĞreturn£¬ÔòÄ¬ÈÏundefined¡£</p>
+	<p>null è¡¨ç¤ºä¸€ä¸ªå€¼è¢«å®šä¹‰äº†ï¼Œå®šä¹‰ä¸ºâ€œç©ºå€¼â€ï¼›<br>
+		undefined è¡¨ç¤ºæ ¹æœ¬ä¸å­˜åœ¨å®šä¹‰ã€‚<br>
+		æ‰€ä»¥è®¾ç½®ä¸€ä¸ªå€¼ä¸º null æ˜¯åˆç†çš„ã€‚</p>
+	<p>â€œè‹¥ä½ å°è¯•å¯¹æŸå…ƒç´ å¼•ç”¨ä¸€ä¸ªè¯¥å…ƒç´ å¹¶ä¸æ”¯æŒçš„äº‹ä»¶ï¼Œä½ ä¼šå‘ç°è¯¥å…ƒç´ çš„'onäº‹ä»¶å'å±æ€§æ˜¯undefinedã€‚ä½†å¦‚æœæŸäº‹ä»¶è¢«è¯¥å…ƒç´ æ‰€æ”¯æŒï¼Œä½†äº‹ä»¶å¤„ç†å‡½æ•°æ²¡è®¾ç½®ï¼Œé‚£ä¹ˆ'onäº‹ä»¶å'æ˜¯nullã€‚â€</p>
+	<p>å‡½æ•°ä¸­æ²¡æœ‰returnï¼Œåˆ™é»˜è®¤è¿”å›undefinedã€‚</p>
 </body>
 </html>
 

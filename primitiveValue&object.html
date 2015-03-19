@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>new</title>
+<script>
+	//由字面量创建的值（数字、字符、布尔值）都不是对象，而是原始值
+	//原始值就是表示js中可用数据的最底层（最简单）的形式，不可细化
+	//然而，原始值可以被当做对象来使用，于是也就有了对象的特性（方法属性等）
+	var values=[null,undefined,5,'strings',true,false,{},['a',1,false]];
+	for (var i=0,len=values.length; i<len;i+=1) {
+		console.log(typeof values[i]);
+	}
+
+	
+	console.log('====================');
+	//从构造函数返回的数字、字符、布尔值也不是对象
+	
+	console.log(typeof Number(5));//number
+	console.log(typeof String('strings'));//string
+	console.log(typeof Boolean(1));//boolean
+	console.log(typeof Object());//object
+	console.log(typeof Array('a',1,false));//object
+	console.log(typeof Function('x','y','return x*y'));//function
+	console.log(typeof Date());//string
+	console.log(typeof Error('error!'));//object
+	console.log(typeof RegExp('\\bt[a-z]+\\b'));//object
+
+
+	console.log('====================');
+	//用new通过构造函数创建的都是对象(除了Function)
+
+	console.log(typeof new Number(5));//object
+	console.log(typeof new String('strings'));//object
+	console.log(typeof new Boolean(1));//object
+	console.log(typeof new Object());//object
+	console.log(typeof new Array('a',1,false));//object
+	console.log(typeof new Function('x','y','return x*y'));//function
+	console.log(typeof new Date());//object
+	console.log(typeof new Error('error!'));//object
+	console.log(typeof new RegExp('\\bt[a-z]+\\b'));//object
+	
+	
+	console.log('====================');
+	//原始值和复杂对象的比较
+	
+	console.log(new Number(10)==10);//true
+	console.log(new Number(10)===10);//false
+	
+	
+	console.log('====================');
+	//原始值可以被当做对象来使用，这一过程中，js会将原始值转换为对象，以便使用对象的方法、属性，之后再转回为原始值
+	
+	var string1='foo'.toString(),
+		 string2=String('foo').toString(),
+		 string3=(new String('foo')).toString();
+	
+	console.log(string1,string2,string3);
+	
+	console.log(string1===string2);
+	console.log(string1===string3);
+	
+	
+	console.log('====================');
+	//原始值的赋值形式是直接复制新值，当原始值发生变化，副本依然保持最后赋予的值
+	//而对象（或称复杂值）则是引用（内存地址），当原始对象发生变化时，副本也会变为所指向的内存存储的新值
+	
+	var value=1,
+		 copyOfValue=value;
+	value=2;
+	console.log(copyOfValue);//1
+	
+	var obj={},
+		 copyOfObj=obj;
+	obj.a=1;
+	console.log(copyOfObj);//object{a:1}
+
+	var obj=[],
+		 copyOfObj=obj;
+	obj.a=1;
+	console.log(copyOfObj);//[a:1]
+
+	
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
+
