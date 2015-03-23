@@ -5,11 +5,12 @@
 <title>Page Title</title>
 <script src="js/jquery.1.8.2.min.js"></script>
 <script>
-$(function(){
-	$('div').on('click','a',function(){
-		alert('click');
+	$(function(){
+		//$(触发事件元素的跟踪父元素).on(event,触发事件的元素,事件函数)
+		$('div').on('click','a',function(){
+			alert('click');
+		});
 	});
-});
 </script>
 </head>
 

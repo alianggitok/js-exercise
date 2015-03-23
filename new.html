@@ -4,21 +4,22 @@
 <head>
 <title>new</title>
 <script>
-var objs=function(args){
-	this.args=args;
-	this.print=function(){
-		console.log(this);
+	//constructor
+	var objs=function(args){
+		this.args=args;
+		this.print=function(){
+			console.log(this);
+		};
 	};
-};
 
 
-var newObj=new objs({
-		a:'1',
-		b:'2'
-	});
-newObj.print();
+	var newObj=new objs({
+			a:'1',
+			b:'2'
+		});
+	newObj.print();
 
-console.log(newObj.constructor);
+	console.log(newObj.constructor);
 
 </script>
 </head>

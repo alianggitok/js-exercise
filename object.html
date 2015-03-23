@@ -4,20 +4,26 @@
 <head>
 <title>Page Title</title>
 <script>
-var obj={
-	a:{
-		a1:function(){
-			alert(this.a2());
-		},
-		a2:function(){
-			return 2;
-		}
-	},
-	b:function(){
-		
-	}
-};
-obj.a.a1();
+	//创建对象时，会将构造函数的constructor属性放入创建的对象中
+	var obj={};
+	console.log(obj.constructor);//function Object(){...}
+	console.log(obj.constructor===Object);//true
+
+	var array=[];
+	console.log(array.constructor);//function Array(){...}
+	console.log(array.constructor===Array);//true
+
+	//自定义构造函数同样有constructor属性
+	function constructor(){
+		return 'aaa';
+	};
+	var instance=new constructor();
+
+	console.log(instance.constructor);//function constructor(){...}
+	console.log(instance.constructor===constructor);//true
+
+
+
 </script>
 </head>
 
