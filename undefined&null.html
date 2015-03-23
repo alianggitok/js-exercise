@@ -19,9 +19,20 @@
 	console.log('parseInt(undefined): '+parseInt(undefined));//NaN
 
 	console.log('====================');
-	console.log(11+null);//11
-	console.log(11+undefined);//NaN
+	var byNull=11+null,
+		 byUndefined=11+undefined;
+	console.log(typeof(byNull), byNull);//11
+	console.log(typeof(byUndefined), byUndefined);//NaN
 	
+	console.log('====================');
+	//由于“未声明的变量”和“已声明但未赋值的变量”用 typeof 都会返回“undefined”，所以，在声明变量时给暂无法赋值的变量指向 null 来加以区分。
+	var declare;
+	console.log(typeof declare);//undefined
+	
+	var declare=null;
+	console.log(typeof declare);//object
+	console.log(typeof undeclare);//undefined
+
 </script>
 </head>
 
