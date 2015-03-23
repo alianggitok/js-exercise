@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+	//变量instance存储的是构造函数constructor的实例
+	function Constructor(){
+		return 'aaa';
+	};
+	var instance=new Constructor();
+
+	console.log(instance);
+	console.log(typeof instance);//object
+
+	//判断某对象是否为指定构造函数的实例
+	var array=['a',1,true];
+	console.log(array instanceof Array);//true
+	console.log(instance instanceof Constructor);//true
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
+
