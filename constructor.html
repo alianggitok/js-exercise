@@ -2,10 +2,10 @@
 
 <html>
 <head>
-<title>new</title>
+<title>constructor</title>
 <script>
 	//constructor
-	var objs=function(args){
+	var MyConstructor=function(args){
 		this.args=args;
 		this.print=function(){
 			console.log(this);
@@ -13,15 +13,24 @@
 	};
 	
 
-	var newObj=new objs({
+	var newObj=new MyConstructor({
 			a:'1',
 			b:'2'
 		});
-	newObj.print();
-
-	console.log(objs.constructor);
-	console.log(newObj.constructor);
 	
+	newObj.print();//MyConstructor()
+
+	console.log(MyConstructor.constructor);//native code of Function() constructor
+	console.log(MyConstructor.constructor===Function);//true, Function() is a native constructor
+	console.log(newObj.constructor===MyConstructor);//true
+	
+	newObj.c='3';//由构造函数创建的对象可扩展属性
+	console.log(newObj.c);//3
+	console.log(newObj);//会将属性c放到MyConstructor()构造函数内
+	
+	var primitive='somthing';
+	primitive.c='3';//字面量创造的原始值无法扩展属性
+	console.log(primitive.c);//undefined
 
 </script>
 </head>
