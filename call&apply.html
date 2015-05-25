@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>call &amp; apply</title>
+<script>
+	var obj={};
+	obj.color='red';
+
+	function doSomthing(arg1,arg2){
+		this.name='Warren';
+		console.log(this,arg1,arg2);
+		console.log(this===obj);
+	};
+
+	//把obj这个对象传入doSomthing，使this===obj
+	doSomthing.call(obj,1,2);//1 2
+	doSomthing.apply(obj,[1,2]);//1 2
+	
+
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
+

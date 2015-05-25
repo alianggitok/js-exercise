@@ -12,13 +12,14 @@
 		};
 	};
 	
-
 	var newObj=new MyConstructor({
 			a:'1',
 			b:'2'
 		});
 	
+	console.log(newObj.args);//{a:"1",b:"2"}
 	newObj.print();//MyConstructor()
+	
 
 	console.log(MyConstructor.constructor);//native code of Function() constructor
 	console.log(MyConstructor.constructor===Function);//true, Function() is a native constructor
@@ -31,6 +32,10 @@
 	var primitive='somthing';
 	primitive.c='3';//字面量创造的原始值无法扩展属性
 	console.log(primitive.c);//undefined
+
+	var obj={};
+	obj.c='4';//对象字面量可以扩展属性
+	console.log(obj.c);//4
 
 </script>
 </head>
