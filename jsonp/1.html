@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page 1</title>
+<script src="../js/jquery.1.8.2.min.js"></script>
+
+
+</head>
+
+<body>
+
+<button id="btnGet">get jsonp</button>
+
+
+<!--
+<script>
+    function $(str){
+        return document.getElementById(str)
+    }
+    function CreateScript(src) {
+        var Scrip=document.createElement('script');
+        Scrip.src=src;
+        document.body.appendChild(Scrip);
+    }
+    function jsonpcallback(json) {
+            console.log(json);//Object { email="中国", email2="中国222"}
+    }
+    $('btn').onclick=function(){
+      CreateScript("http://localhost:46728/json/data.json?callback=jsonpcallback")    
+    }
+</script>
+-->
+
+
+<script>
+	function createScript(src){
+		$('<scirpt></scirpt>').attr('src',src).appendTo('body');
+		console.log('Create script for '+src+'.');
+	};
+	function jsonpCallback(json){
+		console.log(json);
+	};
+	
+	$('#btnGet').click(function(){
+		createScript('http://localhost:46728/json/data.json?callback=jsonpCallback');//
+	});
+</script>
+
+
+</body>
+</html>
