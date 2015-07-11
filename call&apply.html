@@ -4,21 +4,28 @@
 <head>
 <title>call &amp; apply</title>
 <script>
+	
 	var obj={};
 	obj.color='red';
 
 	function doSomthing(arg1,arg2){
 		this.name='Warren';
-		console.log(this,arg1,arg2);
-		console.log(this===obj);
+		
+		document.write(this+', '+arg1+', '+arg2+'<br>');
+		document.write((this===obj)+'<br>');
+		document.write('------------------------------'+'<br>');
 	};
 
 	//把obj这个对象传入doSomthing，使this===obj
 	doSomthing.call(obj,1,2);//1 2
 	doSomthing.apply(obj,[1,2]);//1 2
 	
-
-
+	//技巧，让Math.max可以传入数组来得出最大值
+	var array=[1,3,4,10,22,9],
+		 max=null;
+	max=Math.max.apply(null,array);
+	document.write(max+'<br>');//22
+	
 </script>
 </head>
 

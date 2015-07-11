@@ -4,7 +4,9 @@
 <head>
 <title>prototype</title>
 <script>
-	var instance=null;
+	var instanceA=null,
+		 instanceA=null,
+		 watchThis=null;
 	
 	function ClassA(){
 		this.name='Warren';
@@ -15,18 +17,30 @@
 		this.sex='male';
 	};
 	
-	ClassA.prototype=new ClassB();
+
+	ClassA.prototype.print = function(){
+		console.log(this);//this指向随运行环境变化
+	};
+	watchThis = new ClassA();
+	watchThis.print();
 	
-	instance=new ClassA();
-	console.log(new ClassA());
 	
-	console.log('ClassA.prototype:',ClassA.prototype);//ClassA的prototype继承自ClassB的实例
-	console.log('ClassB.prototype:',ClassB.prototype);//ClassB的prototype默认没有赋值
+	ClassA.prototype=new ClassB();//指向 ClassB 实例对象，将使 ClassA.prototype.__proto__ === ClassB.prototype
+	instanceA=new ClassA();
+	console.log(instanceA);
+	
+	console.log('ClassA.prototype:',ClassA.prototype);//ClassA 的 prototype 指向 ClassB 的实例
+	console.log('ClassA.prototype.__proto__:',ClassA.prototype.__proto__);//ClassA 的 __proto__ 指向了 ClassB 的 prototype
+	console.log('ClassB.prototype:',ClassB.prototype);//ClassB 的 prototype 默认没有赋值
+	console.log('ClassB.prototype.__proto__:',ClassB.prototype.__proto__);
+	
 	
 	//原型链
 	//每个对象都有prototype属性
-	console.log(ClassA.prototype.__proto__===Object.prototype);//ClassA的原型本身是个对象，所以他的隐式引用指向的是Object原生构造函数的原型
-	console.log(instance.__proto__===ClassA.prototype);//实例instance的隐式引用指向ClassA的prototype
+	console.log(typeof ClassA.prototype===typeof ClassA.prototype.__proto__);//都是 object 类型，但分别指向不同的对象
+	console.log(ClassA.prototype.__proto__===Object.prototype);//ClassA 的原型本身是个对象，所以他的隐式引用指向的是 Object 原生构造函数的原型
+	console.log(ClassA.prototype.__proto__===ClassB.prototype);//ClassA 的隐式引用就是 ClassB 的 prototype
+	console.log(instanceA.__proto__===ClassA.prototype);//ClassA 的实例 instanceA 的隐式引用指向 ClassA 的 prototype
 	
 //	ClassA.prototype.id='1234567';
 //	ClassA.prototype.data={a:1,b:2,c:3};
