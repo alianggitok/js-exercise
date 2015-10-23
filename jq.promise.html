@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>promises in jQuery</title>
+<script src="js/jquery.1.8.2.min.js"></script>
+<script>
+	//promise
+	var getData=$.get('./json/data.json');
+	getData.done(function(res){
+		console.log('done!',res);
+	}).fail(function(res){
+		console.log('failed!',res)
+	});
+
+
+	//deferred
+	var timer=function timer(delay){
+		var whenTimeout =$.Deferred(),
+			 promise=whenTimeout;
+
+		promise.cancel=function(payload){
+			whenTimeout.reject(payload);
+		};
+
+		setTimeout(function(){
+			whenTimeout.resolve();
+		},delay);
+
+		return promise;
+	};
+
+	var startTime=new Date(),
+		 delay=1000,
+		 cancelTime=3000,
+		 timer1=timer(delay),
+		 timer2=timer(cancelTime);
+
+	timer1.done(function(){
+		alert('myTimer done1.');
+	});
+	timer1.done(function(){
+		alert('myTimer done2.');
+	});
+
+	timer2.done(function(){
+		alert('cancelTimer done.');
+	}).fail(function(){
+		alert('cancelTimer failed.');
+	});
+
+	//在 timer2 done 之前调用 cancel，将触发 fail
+	timer2.cancel();
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
+
