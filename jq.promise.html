@@ -3,59 +3,110 @@
 <html>
 <head>
 <title>promises in jQuery</title>
-<script src="js/jquery.1.8.2.min.js"></script>
+<script src="js/jquery-1.11.3.min.js"></script>
 <script>
 	//promise
 	var getData=$.get('./json/data.json');
 	getData.done(function(res){
 		console.log('done!',res);
 	}).fail(function(res){
-		console.log('failed!',res)
+		console.log('failed!',res);
 	});
-
 
 	//deferred
 	var timer=function timer(delay){
-		var whenTimeout =$.Deferred(),
-			 promise=whenTimeout;
-
-		promise.cancel=function(payload){
-			whenTimeout.reject(payload);
-		};
+		var dfd =$.Deferred(),
+			 promise=dfd.promise(),
+			 oDate=new Date();
 
 		setTimeout(function(){
-			whenTimeout.resolve();
+			dfd.resolve();//通知触发done
 		},delay);
 
-		return promise;
+		promise.buffer=setInterval(function(){
+			var now=new Date();
+			console.log('buffering');
+			dfd.notify(new Date(now-oDate).getSeconds()+'s');//通知触发progress
+		},300);
+
+		promise.cancel=function(){
+			console.log('cancel!');
+			dfd.reject();//通知触发fail
+		};
+
+		return promise;//返回 deferred 的 promise()，防止 notify、resole、reject 方法外泄（promise()不允许notify、resole、reject）
 	};
 
-	var startTime=new Date(),
-		 delay=1000,
-		 cancelTime=3000,
-		 timer1=timer(delay),
-		 timer2=timer(cancelTime);
+	var timer1=timer(800),
+		 timer2=timer(5000),
+		 done=function(obj,context){
+			 $(context).find('.state').html(context+': '+obj.state());
+			 $(context).find('.buffer').empty();
+			 clearInterval(obj.buffer);
+		 },
+		 progress=function(obj,context,info){
+			 $(context).find('.state').html(context+': '+info+', '+obj.state());
+			 $(context).find('.buffer').html($(context).find('.buffer').html()+'.');
+		 },
+		 fail=function(obj,context){
+			 $(context).find('.state').html(context+': '+obj.state());
+			 $(context).find('.buffer').empty();
+			 clearInterval(obj.buffer);
+		 };
 
 	timer1.done(function(){
-		alert('myTimer done1.');
-	});
-	timer1.done(function(){
-		alert('myTimer done2.');
+//		alert('myTimer done1.');
+		done(timer1,'.timer1');
+	}).done(function(){
+//		alert('myTimer done2.');
+		done(timer1,'.timer1');
+	}).progress(function(info){
+		progress(timer1,'.timer1',info);
 	});
 
 	timer2.done(function(){
-		alert('cancelTimer done.');
+//		alert('timer2 done.');
+		done(timer2,'.timer2');
 	}).fail(function(){
-		alert('cancelTimer failed.');
+		alert('timer2 failed.');
+		fail(timer2,'.timer2');
+	}).progress(function(info){
+		progress(timer2,'.timer2',info);
 	});
 
-	//在 timer2 done 之前调用 cancel，将触发 fail
-	timer2.cancel();
+	//在 timer2 完成之前调用 reject，触发 fail
+	//如果在 timer 函数中返回 .promise() 方法，则在 timer2 上是不能调用 reject 方法的
+	$(function(){
+		$('.timer2 button').click(function(){
+			try{
+				timer2.cancel();
+			}catch(e){
+				alert('函数timer返回了promise，所以不允许reject()!\n'+e);
+			}
+		});
+	});
 
 </script>
 </head>
 
+
+
 <body>
+
+<div class="timer1">
+	<p>
+		<span class="state"></span>
+		<span class="buffer"></span>
+	</p>
+</div>
+
+<div class="timer2">
+	<p>
+		<span class="state"></span>
+		<span class="buffer"></span>
+	</p>
+	<button type="button">timer2 cancel</button>
+</div>
 
 </body>
 </html>
