@@ -3,31 +3,44 @@
 <html>
 <head>
 <title>promises in jQuery</title>
+<style>
+	.buffer {word-wrap: break-word}
+</style>
 <script src="js/jquery-1.11.3.min.js"></script>
 <script>
 	//promise
 	var getData=$.get('./json/data.json');
 	getData.done(function(res){
-		console.log('done!',res);
+		console.log('json loaded!',res);
 	}).fail(function(res){
-		console.log('failed!',res);
+		console.log('json load failed!',res);
 	});
 
 	//deferred
 	var timer=function timer(delay){
 		var dfd =$.Deferred(),
 			 promise=dfd.promise(),
-			 oDate=new Date();
+			 oDate=new Date(),
+			 bufferStuff={
+				 n:0,
+				 stuff:['-','\\','|','/']
+			 };
 
 		setTimeout(function(){
 			dfd.resolve();//通知触发done
 		},delay);
 
 		promise.buffer=setInterval(function(){
-			var now=new Date();
+			var now=new Date(),
+				 ms=now-oDate,
+				 stuff=bufferStuff.stuff[bufferStuff.n];
 			console.log('buffering');
-			dfd.notify(new Date(now-oDate).getSeconds()+'s');//通知触发progress
-		},300);
+			dfd.notify({//通知触发progress,并传递信息
+				spending:ms+'ms',
+				buffer:stuff
+			});
+			bufferStuff.n=(bufferStuff.n<bufferStuff.stuff.length?bufferStuff.n+=1:0);
+		},50);
 
 		promise.cancel=function(){
 			console.log('cancel!');
@@ -38,50 +51,57 @@
 	};
 
 	var timer1=timer(800),
-		 timer2=timer(5000),
-		 done=function(obj,context){
-			 $(context).find('.state').html(context+': '+obj.state());
-			 $(context).find('.buffer').empty();
-			 clearInterval(obj.buffer);
+		 timer2=timer(10000),
+		 done=function(context){
+			 $(context).find('.state').html(this.state());
+			 clearInterval(this.buffer);
 		 },
-		 progress=function(obj,context,info){
-			 $(context).find('.state').html(context+': '+info+', '+obj.state());
-			 $(context).find('.buffer').html($(context).find('.buffer').html()+'.');
+		 progress=function(context,info){
+			 $(context).find('.state').html(this.state());
+			 $(context).find('.spend').html(info.spending);
+			 $(context).find('.buffer').html(info.buffer);
 		 },
-		 fail=function(obj,context){
-			 $(context).find('.state').html(context+': '+obj.state());
-			 $(context).find('.buffer').empty();
-			 clearInterval(obj.buffer);
+		 fail=function(context){
+			 $(context).find('.state').html(this.state());
+			 clearInterval(this.buffer);
 		 };
 
 	timer1.done(function(){
 //		alert('myTimer done1.');
-		done(timer1,'.timer1');
+		done.call(this,'.timer1');
 	}).done(function(){
 //		alert('myTimer done2.');
-		done(timer1,'.timer1');
+		done.call(this,'.timer1');
 	}).progress(function(info){
-		progress(timer1,'.timer1',info);
+		progress.call(this,'.timer1',info);
 	});
 
 	timer2.done(function(){
 //		alert('timer2 done.');
-		done(timer2,'.timer2');
+		done.call(this,'.timer2');
 	}).fail(function(){
 		alert('timer2 failed.');
-		fail(timer2,'.timer2');
+		fail.call(this,'.timer2');
 	}).progress(function(info){
-		progress(timer2,'.timer2',info);
+		progress.call(this,'.timer2',info);
 	});
 
 	//在 timer2 完成之前调用 reject，触发 fail
-	//如果在 timer 函数中返回 .promise() 方法，则在 timer2 上是不能调用 reject 方法的
 	$(function(){
 		$('.timer2 button').click(function(){
 			try{
-				timer2.cancel();
+				var state=timer2.state();
+				if(state==='pending'){
+					//如果在 timer 函数中返回 .promise() 方法，则在 timer2 上是不能直接调用 reject 方法的，需要在timer函数内部定义一个方法
+					//timer2.reject();
+					timer2.cancel();
+				}else{
+					alert('Already '+state+', can\'t cancel!');
+					return;
+				}
 			}catch(e){
 				alert('函数timer返回了promise，所以不允许reject()!\n'+e);
+				throw(e)
 			}
 		});
 	});
@@ -94,17 +114,16 @@
 <body>
 
 <div class="timer1">
-	<p>
-		<span class="state"></span>
-		<span class="buffer"></span>
-	</p>
+	<span class="buffer"></span> timer1:
+	<span class="state"></span>
+	<span class="spend"></span>
+
 </div>
 
 <div class="timer2">
-	<p>
-		<span class="state"></span>
-		<span class="buffer"></span>
-	</p>
+	<span class="buffer"></span> timer2:
+	<span class="state"></span>
+	<span class="spend"></span>
 	<button type="button">timer2 cancel</button>
 </div>
 
