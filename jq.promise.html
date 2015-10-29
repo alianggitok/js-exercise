@@ -51,39 +51,39 @@
 	};
 
 	var timer1=timer(800),
-		 timer2=timer(10000),
-		 done=function(context){
-			 $(context).find('.state').html(this.state());
-			 clearInterval(this.buffer);
-		 },
+		 timer2=timer(6100),
 		 progress=function(context,info){
 			 $(context).find('.state').html(this.state());
 			 $(context).find('.spend').html(info.spending);
 			 $(context).find('.buffer').html(info.buffer);
+		 },
+		 done=function(context){
+			 $(context).find('.state').html(this.state());
+			 clearInterval(this.buffer);
 		 },
 		 fail=function(context){
 			 $(context).find('.state').html(this.state());
 			 clearInterval(this.buffer);
 		 };
 
-	timer1.done(function(){
+	timer1.progress(function(info){
+		progress.call(this,'.timer1',info);
+	}).done(function(){
 //		alert('myTimer done1.');
 		done.call(this,'.timer1');
 	}).done(function(){
 //		alert('myTimer done2.');
 		done.call(this,'.timer1');
-	}).progress(function(info){
-		progress.call(this,'.timer1',info);
 	});
 
-	timer2.done(function(){
+	timer2.progress(function(info){
+		progress.call(this,'.timer2',info);
+	}).done(function(){
 //		alert('timer2 done.');
 		done.call(this,'.timer2');
 	}).fail(function(){
 		alert('timer2 failed.');
 		fail.call(this,'.timer2');
-	}).progress(function(info){
-		progress.call(this,'.timer2',info);
 	});
 
 	//在 timer2 完成之前调用 reject，触发 fail
@@ -101,9 +101,20 @@
 				}
 			}catch(e){
 				alert('函数timer返回了promise，所以不允许reject()!\n'+e);
-				throw(e)
+				throw(e);
 			}
 		});
+	});
+
+	//when, then & always
+	$.when(timer1,timer2).then(//将done和fail以数组形式传入then，达到done()和fail()的目的
+		function(){//done
+			alert('all timers done!');
+		},function(){fail
+			alert('one or all timers failed');
+		}
+	).always(function(){
+		alert('always do...')
 	});
 
 </script>
