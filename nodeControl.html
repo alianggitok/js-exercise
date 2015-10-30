@@ -7,12 +7,14 @@
 	window.onload=function(){
 		var bodyElement=document.getElementsByTagName('body')[0],
 			bodyChildElement=bodyElement.childNodes,
-			bodyChildElementLen=bodyChildElement.length;
-			alert('bodyChildElementLen: '+bodyChildElementLen),
+			bodyChildElementLen=bodyChildElement.length,
 			node=undefined,
 			i=0,
 			timer=null,
 			timerFrequency=100;
+
+		alert('bodyChildElementLen: '+bodyChildElementLen),
+
 		timer=setInterval(function(){
 			node=bodyChildElement[i];
 			console.log('==>'+i+', nodeType: '+node.nodeType+(node.nodeType===1?', value: '+node.firstChild.nodeValue:''));

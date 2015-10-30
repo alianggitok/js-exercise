@@ -13,6 +13,9 @@
 	console.log(array.constructor);//native code like: function Array(){...}
 	console.log(array.constructor===Array);//true, Array is a native constructor
 
+	var original='originals';
+	original.aa='bb';//原始值以对象的方式赋于属性是被拒绝的
+	console.warn(original.aa);//undefined
 
 
 

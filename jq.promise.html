@@ -39,8 +39,8 @@
 				spending:ms+'ms',
 				buffer:stuff
 			});
-			bufferStuff.n=(bufferStuff.n<bufferStuff.stuff.length?bufferStuff.n+=1:0);
-		},50);
+			bufferStuff.n=(bufferStuff.n<bufferStuff.stuff.length?bufferStuff.n+1:0);
+		},15);
 
 		promise.cancel=function(){
 			console.log('cancel!');
@@ -51,7 +51,7 @@
 	};
 
 	var timer1=timer(800),
-		 timer2=timer(6100),
+		 timer2=timer(5000),
 		 progress=function(context,info){
 			 $(context).find('.state').html(this.state());
 			 $(context).find('.spend').html(info.spending);

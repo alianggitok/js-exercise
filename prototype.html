@@ -19,9 +19,10 @@
 	
 
 	ClassA.prototype.print = function(){
-		console.log(this);//this指向随运行环境变化
+		console.log(this);//this的指向随运行环境变化而改变
 	};
 	watchThis = new ClassA();
+	watchThis.name='Jack';
 	watchThis.print();
 	
 	
