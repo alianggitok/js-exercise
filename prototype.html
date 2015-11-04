@@ -37,7 +37,7 @@
 	
 	
 	//原型链
-	//每个对象都有prototype属性
+	//每个构造函数对象都有prototype属性
 	console.log(typeof ClassA.prototype===typeof ClassA.prototype.__proto__);//都是 object 类型，但分别指向不同的对象
 	console.log(ClassA.prototype.__proto__===Object.prototype);//ClassA 的原型本身是个对象，所以他的隐式引用指向的是 Object 原生构造函数的原型
 	console.log(ClassA.prototype.__proto__===ClassB.prototype);//ClassA 的隐式引用就是 ClassB 的 prototype

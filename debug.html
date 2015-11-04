@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+
+	//	throw 'error!';
+	//	throw new Error('errors...');
+
+	//定义一个自己的错误类型，运用到throw上
+	function MyError(msg){
+		this.msg=msg;
+	}
+	MyError.prototype=new Error();
+
+	//一个可以抛出错误的函数
+	function getDivs(element){
+		if(element && element.getElementsByTagName){
+			return element.getElementsByTagName('div');
+		}else{
+			throw new MyError('==> getDivs(): argument must be a DOM element.');//定义错误类型和信息
+		}
+	}
+
+
+	getDivs(document);//正常
+
+	try{
+		getDivs(null);
+	}catch(error){
+		//error 值就是 getDivs 函数 throw 出的值
+		//通过try catch语句捕获的错误不会引发因一个错误而导致程序的中断
+		if(error instanceof MyError){//根据getDivs抛出的错误类型做判断，除了Error，还有TypeError、SyntaxError、RangeError 等，还可以创建自己的错误类型
+			console.warn('==> throw MyError: ',error.msg);
+		}
+	}finally{
+		alert('finally!');//finally中放置不管有无错误都会执行的代码块
+	}
+
+
+	getDivs(null);//直接抛出错误，并中断程序的执行
+
+	alert('done');
+
+</script>
+</head>
+
+<body>
+
+<div></div>
+
+</body>
+</html>

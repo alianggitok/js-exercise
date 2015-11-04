@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+
+	//Object.create() 基于对象的集成
+	if(!Object.create){//检测兼容性，如果浏览器内核不支持，则手动创建
+		Object.create=function(o){
+			if(arguments.length>1){//只接受一个参数否则抛出错误
+				throw new Error('Object.create implementtation only accepts the first parameter.');
+			}
+			function C(){}//函数才有prototype属性来继承
+			C.prototype=o;
+			return new C();
+		}
+	}
+
+	//用法示例
+	var person={//原始对象
+		name:'Nicholas',
+		sayName:function(){
+			console.log('say name:',this.name);
+		}
+	};
+
+	var myPerson=Object.create(person);
+
+
+	//这种方式建立的新对象可以访问原始对象
+	person.name='Jack';
+	myPerson.sayName();//Jack
+
+	//同时，新建的对象不会污染原始对象
+	myPerson.name='Mary';
+	myPerson.sayName();//Mary
+	person.sayName();//还是Jack
+
+
+	//原生的Object.create方法可以在新建对象的同时，将新的值以特定的对象描述格式传入新建对象
+	var anotherPerson=Object.create(person,{
+		name:{value:'Warren'}
+	});
+
+	anotherPerson.sayName();//Warren
+	person.sayName();//仍然是Jack
+
+	console.warn(anotherPerson)
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
