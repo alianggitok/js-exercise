@@ -16,6 +16,7 @@
 	};
 
 	//使用call或apply把上面的obj这个对象传入doSomthing，使this===obj
+	//不同的是apply以数组的形式将参数传递到函数中，而call则是依次传递
 	doSomthing.call(obj,1,2);//1 2
 	doSomthing.apply(obj,[1,2]);//1 2
 	

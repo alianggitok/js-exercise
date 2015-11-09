@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+
+	function module(){
+		var api={};
+
+		function sayA(){
+			console.log('a');
+		}
+		function sayB(){
+			console.log('b');
+		}
+
+		function change(){
+			api.say=sayB;//通过暴露这个函数在外部调用后，可以动态地改变api的指向
+		}
+
+		api={//定义api借口
+			change:change,
+			say:sayA
+		};
+
+		return api;//暴露相关函数成为方法
+	}
+
+	var app=module();//创建实例
+
+	app.say();//a
+
+	app.change();//改变say方法的指向，
+	app.say();//b
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
