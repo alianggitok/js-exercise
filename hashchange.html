@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script>
+	$(function(){
+		
+		function getHash(){
+			$('.info').text(location.hash)
+		}
+		function setHash(){
+			location.hash='#'+Math.random();
+		}
+		
+		
+//		$('#btn-gethash').click(function(){
+//			getHash();
+//		});
+		$('#btn-sethash').click(function(){
+			setHash();
+		});
+		
+		//ie6-7 不支持onhashchange
+		window.onhashchange=function(){
+			getHash();
+		};
+		
+	});
+</script>
+</head>
+
+<body>
+
+	<p><button id="btn-sethash">set hash</button></p>
+	
+<!--	<p><button id="btn-gethash">get hash</button></p>-->
+	
+	<p>hash value: <span class="info"></span></p>
+
+</body>
+</html>
