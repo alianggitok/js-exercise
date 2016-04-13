@@ -19,12 +19,12 @@
 	//deferred
 	var timer=function timer(delay){
 		var dfd =$.Deferred(),
-			 promise=dfd.promise(),
-			 oDate=new Date(),
-			 bufferStuff={
-				 n:0,
-				 stuff:['-','\\','|','/']
-			 };
+			promise=dfd.promise(),
+			oDate=new Date(),
+			bufferStuff={
+				n:0,
+				stuff:['-','\\','|','/']
+			};
 
 		setTimeout(function(){
 			dfd.resolve();//通知触发done
@@ -32,8 +32,8 @@
 
 		promise.buffer=setInterval(function(){
 			var now=new Date(),
-				 ms=now-oDate,
-				 stuff=bufferStuff.stuff[bufferStuff.n];
+				ms=now-oDate,
+				stuff=bufferStuff.stuff[bufferStuff.n];
 			console.log('buffering');
 			dfd.notify({//通知触发progress,并传递信息
 				spending:ms+'ms',
@@ -51,20 +51,20 @@
 	};
 
 	var timer1=timer(800),
-		 timer2=timer(5000),
-		 progress=function(context,info){
-			 $(context).find('.state').html(this.state());
-			 $(context).find('.spend').html(info.spending);
-			 $(context).find('.buffer').html(info.buffer);
-		 },
-		 done=function(context){
-			 $(context).find('.state').html(this.state());
-			 clearInterval(this.buffer);
-		 },
-		 fail=function(context){
-			 $(context).find('.state').html(this.state());
-			 clearInterval(this.buffer);
-		 };
+		timer2=timer(5000),
+		progress=function(context,info){
+			$(context).find('.state').html(this.state());
+			$(context).find('.spend').html(info.spending);
+			$(context).find('.buffer').html(info.buffer);
+		},
+		done=function(context){
+			$(context).find('.state').html(this.state());
+			clearInterval(this.buffer);
+		},
+		fail=function(context){
+			$(context).find('.state').html(this.state());
+			clearInterval(this.buffer);
+		};
 
 	timer1.progress(function(info){
 		progress.call(this,'.timer1',info);
@@ -106,15 +106,16 @@
 		});
 	});
 
-	//when, then & always
+	//when, then & always 侦听promise
+	//when 返回 promise
 	$.when(timer1,timer2).then(//将done和fail以数组形式传入then，达到done()和fail()的目的
 		function(){//done
 			alert('all timers done!');
-		},function(){fail
+		},function(){//fail
 			alert('one or all timers failed');
 		}
 	).always(function(){
-		alert('always do...')
+		alert('always do...');
 	});
 
 </script>
