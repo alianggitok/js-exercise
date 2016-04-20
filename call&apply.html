@@ -1,41 +1,62 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
-<title>call &amp; apply</title>
-<script>
-	
-	var obj={};
-	obj.color='red';
+	<title>call &amp; apply</title>
+	<script>
+		var obj = {};
+		obj.color = 'red';
 
-	function doSomthing(arg1,arg2){
-		this.name='Warren';
+		function doSomthing(arg1, arg2) {
+			this.name = 'Warren';
+
+			console.log(this, arg1, arg2);
+			console.log(this === obj);
+		};
+
+		//使用call或apply把上面的obj这个对象传入doSomthing，使this===obj
+		//不同的是apply以数组的形式将参数传递到函数中，而call则是依次传递
+		//call方法实际上是apply的语法糖，
+		//apply和call，两者视参数情况合理使用
+		doSomthing.call(obj, 1, 2); //1 2
+		doSomthing.apply(obj, [1, 2]); //1 2
+
+
+		//技巧，让Math.max可以传入数组来得出最大值
+		var array = [1, 3, 4, 10, 22, 9],
+			max = null;
+
+		max = Math.max(1, 3, 4, 10, 22, 9);
+		document.write('Math.max: ' + max + '<br>'); //22
+
+		max = Math.max.apply(null, array);//只是以数组形式包装后作为参数传递 array，最终传入的是array内的各项值
+		document.write('Math.max.apply: ' + max); //22
+
+
+		//让 visitor 对象拥有 Array 的 push 功能
+		var visitor = {
+			0: 'a',//会被 visitor.push('first') 最终覆盖
+			'b': 'b'
+		};
+		console.log(visitor);
+		visitor.push = function () {
+			return Array.prototype.push.apply(this, arguments);
+		};
+		visitor.push('first');//会覆盖visitor[0]
+		visitor.push('second');
+		visitor.push('third');
+		//结果仍然是一个对象，其 key 为递增的序号，value 为 push 进的新值，
+		//但是会覆盖原有以数值为key的属性的值
+		//同时该对象会和数组对象一样，有个 length 属性
+		console.log('\t', visitor, visitor instanceof Object);
 		
-		console.log(this,arg1,arg2);
-		console.log(this===obj);
-	};
-
-	//使用call或apply把上面的obj这个对象传入doSomthing，使this===obj
-	//不同的是apply以数组的形式将参数传递到函数中，而call则是依次传递
-	doSomthing.call(obj,1,2);//1 2
-	doSomthing.apply(obj,[1,2]);//1 2
-	
-
-	//技巧，让Math.max可以传入数组来得出最大值
-	var array=[1,3,4,10,22,9],
-		 max=null;
-
-	max=Math.max(1,3,4,10,22,9);
-	document.write('Math.max: '+max+'<br>');//22
-
-	max=Math.max.apply(null,array);
-	document.write('Math.max.apply: '+max);//22
-	
-</script>
+		
+	</script>
 </head>
 
 <body>
 
 </body>
-</html>
 
+</html>

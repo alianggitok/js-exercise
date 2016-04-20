@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+
+	//可以对函数进行属性扩展，比如制作一个缓存区用来存储需要反复调用的数据，
+	//这种模式被称作“备忘模式”
+	function funcA(){
+		console.log(funcA.cache);
+	}
+	funcA.cache={
+		a:'a',
+		b:'b'
+	}
+	funcA();
+	
+	//又或者可以将 cache 用做缓存函数首次执行的结果，
+	//在下次调取函数时可以绕过繁重的重复计算，直接调取首次执行返回的结果
+	function funcB(param){
+		var result={};
+		if(!funcB.cache[param]){//判断是否是第一次执行
+			//这里是计算过程
+			console.log('put in cache');
+			result.a='a';
+			result.b='b';
+			
+			//接着将赋值计算的结果传递给 cache 下的 [param]（runA/runB）对象
+			funcB.cache[param]=result;
+		}
+		console.log(funcB.cache);
+	}
+	funcB.cache={};
+	funcB('runA');
+	funcB('runA');//绕过计算直接取缓存了
+	funcB('runB');//重新计算，因为赋予了不同的参数
+
+</script>
+</head>
+
+<body>
+	
+</body>
+</html>
+

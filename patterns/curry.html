@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+
+	//currying，苛理化，局部函数/部分求值，函数式编程的技巧之一，
+	//通过这种方式重新组织参数并返回新的函数
+	//利于函数参数的管理，
+	//当一个函数多次调用所赋予的参数大体相同时，这个函数就可以考虑curry化，
+	//从而精简每次调用时传递的参数
+	
+	
+	//这是一个将函数curry化的通用函数
+	function currying(fn){//fn必须是一个函数，将要被currying的函数
+		//剥离第一个函数参数，并存起来给return的function用
+		var storedArgs=[].slice.call(arguments,1);
+		console.info('currying storedArgs:',storedArgs);
+		return function(){
+			//一个函数表达式，
+			//所以里面的arguments在return后再次获取的是新调用时传入的参数
+			var newArgs=[].slice.call(arguments),
+				args=storedArgs.concat(newArgs);//与已存的storedArgs合并
+			console.log('\t',arguments);
+			console.log('\tcurrying args:',args);
+			return fn.apply(null,args);//将新的参数应用到fn里
+		};
+	}
+	
+	
+	//应用1：
+	var get=currying(function(){//传入被currying的函数
+		//示例代码，简单的数组转换字符串的方法
+		var all=[].slice.call(arguments);
+		console.log('get:',all.join('、'));
+	},'合法老婆');
+	//不管怎么调用，“合法老婆”这个参数始终会被传入
+	get('小老婆a','小老婆b','小老婆c','小老婆d');
+	get('小老婆E');
+	
+	
+	//应用2：
+	var calc=currying(function(x,y){
+		//示例代码，求和
+		console.log('calc:',x+y);
+	},5);
+	//不管怎么调用，x始终是5
+	calc(1,2,3);//6（因为被curry化的fn只用到了x和y两个参数，所以再多的参数都是无用的）
+	calc(1);//6（y是1，x是默认的5）
+
+</script>
+</head>
+
+<body>
+	
+</body>
+</html>
+

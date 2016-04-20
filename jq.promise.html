@@ -8,6 +8,10 @@
 </style>
 <script src="js/jquery-1.11.3.min.js"></script>
 <script>
+	//异步回调的另一种编程风格，使得代码直观易读
+	//通过 deferred 对象把执行结果传递给 promise 下的方法执行回调
+	//deferred 的执行结果是不可逆的，即“成功就成功，失败就失败”
+		
 	//promise
 	var getData=$.get('./json/data.json');
 	getData.done(function(res){
@@ -108,7 +112,7 @@
 
 	//when, then & always 侦听promise
 	//when 返回 promise
-	$.when(timer1,timer2).then(//将done和fail以数组形式传入then，达到done()和fail()的目的
+	$.when(timer1,timer2).then(//将done和fail的回调以参数形式传入then，达到done()和fail()的目的
 		function(){//done
 			alert('all timers done!');
 		},function(){//fail
