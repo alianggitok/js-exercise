@@ -13,6 +13,19 @@
 	console.log('function bb\'s arguments length:',bb.length);//3
 
 	
+	function getCaller(){
+		console.log(getCaller);//获取函数自身
+		console.log('\t',getCaller.caller);//可以获得调用该函数的函数
+	}
+	(function caller1(){
+		getCaller();
+	})();
+	(function caller2(){
+		getCaller();
+	})();
+
+
+
 </script>
 </head>
 

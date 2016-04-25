@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+	var mine=(function(){
+		var men={
+			a:'jack',
+			b:'warren'
+		};
+		return {
+			get:function(){
+				return men;//直接返回成员，这样会将其暴露在外，会被外部修改
+			},
+			getOrig:function(){
+				return {//返回对象字面量，只引用私有成员可以保持其私有性，不被外部修改
+					a:men.a,
+					b:men.b
+				};
+			}
+		};
+	}());
+
+	var man=mine.get();//这个方法暴露了私有成员
+	man.a='tom';
+	console.log(mine.get());//导致私有成员被修改
+
+	var man=mine.getOrig();
+	man.a='john';//试图修改私有成员
+	console.log(mine.getOrig());//没有变化
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
+

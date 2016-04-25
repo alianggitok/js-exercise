@@ -7,19 +7,18 @@
 
 	//currying，苛理化，局部函数/部分求值，函数式编程的技巧之一，
 	//通过这种方式重新组织参数并返回新的函数
-	//利于函数参数的管理，
-	//当一个函数多次调用所赋予的参数大体相同时，这个函数就可以考虑curry化，
+	//利于参数的复用，传入参数的数量可以不受限制，并且可以避免重复初始化过程提升了性能
+	//当一个函数需要做初始化，或者多次调用时所赋予的参数大体相同，又或者需要传入的参数数量不确定时，这个函数就可以考虑做curry化，
 	//从而精简每次调用时传递的参数
 	
 	
-	//这是一个将函数curry化的通用函数
+	//下面这个是一个将函数对象curry化的通用函数
 	function currying(fn){//fn必须是一个函数，将要被currying的函数
 		//剥离第一个函数参数，并存起来给return的function用
 		var storedArgs=[].slice.call(arguments,1);
+		//这里还可以做一些初始化的计算
 		console.info('currying storedArgs:',storedArgs);
 		return function(){
-			//一个函数表达式，
-			//所以里面的arguments在return后再次获取的是新调用时传入的参数
 			var newArgs=[].slice.call(arguments),
 				args=storedArgs.concat(newArgs);//与已存的storedArgs合并
 			console.log('\t',arguments);
@@ -32,11 +31,11 @@
 	//应用1：
 	var get=currying(function(){//传入被currying的函数
 		//示例代码，简单的数组转换字符串的方法
-		var all=[].slice.call(arguments);
+		var all=[].slice.call(arguments);//对传入的任意数量的参数做处理
 		console.log('get:',all.join('、'));
 	},'合法老婆');
-	//不管怎么调用，“合法老婆”这个参数始终会被传入
-	get('小老婆a','小老婆b','小老婆c','小老婆d');
+	//不管怎么调用，“合法老婆”这个“正室”始终会被传入
+	get('小老婆a','小老婆b','小老婆c','小老婆d');//小妾无数
 	get('小老婆E');
 	
 	

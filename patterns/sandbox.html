@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+
+	//实现沙箱模式的主功能构建函数
+	function Sandbox(){
+		var args=[].slice.call(arguments),//将参数转为数组
+			callback=args.pop(),//删除并返回最后一个回调函数的参数
+			//第一个参数视为依赖模块声明，
+			//如果为字符则视为单一模块，如果是数组，则将作为一组模块
+			modules=(args[0]&&typeof args[0]==='string')?args:args[0],
+			i;
+
+		//如果是未被实例化先new一下，避免无限递归，
+		//确保该函数是以构造函数方式被调用
+		if(!(this instanceof Sandbox)){
+			return new Sandbox(modules,callback);//这时记得传入整理后的原始参数
+		}
+
+		//可以添加一些属性
+		this.a=1;
+		this.b=2;
+
+		//添加所建的模块
+		if(!modules||modules==='*'){//没有声明依赖模块或者为'*'时，视为使用所有模块
+			modules=[];
+			for(i in Sandbox.modules){
+				if(Sandbox.modules.hasOwnProperty(i)){
+					modules.push(i);
+				}
+			}
+		}
+
+		//初始化所需模块
+		for(i=0; i<modules.length; i+=1 ){
+			Sandbox.modules[modules[i]](this);//传入this与创建的module中的参数box挂钩
+		}
+
+		//执行回调函数，同时传入this，与依赖声明中回调函数的参数box挂钩，
+		//相当于return了一个实例化后的对象
+		callback(this);
+	}
+
+	Sandbox.prototype={//顺便添加一些原型属性和方法，供创建的实例来用
+		name:'app',
+		version:'1.0',
+		getName:function(){
+			return this.name+' '+this.version;
+		}
+	}
+	Sandbox.modules={};//创建一个模块容器
+
+	//创建模块
+	Sandbox.modules.dom=function(box){
+		box.getElement=function(){};
+		box.getStyle=function(){};
+	};
+	Sandbox.modules.events=function(box){
+		box.attachEvent=function(){};
+		box.dettachEvent=function(){};
+	};
+	Sandbox.modules.ajax=function(box){
+		box.makeRequest=function(){};
+		box.getResponse=function(){};
+	};
+
+	//实例化，由于new被封装在Sandbox中，在这里建立实例的时候就看不到new关键字了
+	var innerBox=null,
+		app=Sandbox(['dom','events'],function(box){//box同时继承了dom和events两个模块的方法、属性
+			console.log('box:',box);
+			innerBox=box;
+			console.log(box.name);//调用原型属性/方法
+			console.log(box.b);
+		});
+
+	console.log('app===box?',app===innerBox);
+	console.log('app name:',app.getName());//调用原型方法
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
+

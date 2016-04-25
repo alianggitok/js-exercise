@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+
+	//这是一种开发模式，称为“门面模式”
+	//我们来模拟一下dom操作
+
+	//建立构造函数
+	function $(element){
+		this.element=document.getElementById(element);
+		if(!(this instanceof $)){//如果是未被实例化才new一下，否则跳出，避免无限递归
+			return new $(element);//返回这个元素实例
+		}
+	}
+
+	//扩展DOM的原型方法，为DOM构造的实例所用，每一个DOM的实例都会拥有如下方法
+	$.prototype.addClass=function(className){
+		this.element.className+=' '+className;
+	};
+
+	$.prototype.remove=function(){
+		this.element.parentNode.removeChild(this.element);
+	};
+
+
+	//使用
+	window.onload=function(){
+		var dom1=$('mydiv1'),
+			dom2=$('mydiv2');
+
+		console.log(dom1.element,dom2.element);
+
+		dom1.addClass('rendered');
+		dom2.remove();
+	};
+
+
+</script>
+</head>
+
+<body>
+
+	<div id="mydiv1">text1</div>
+
+	<div id="mydiv2">text2</div>
+
+</body>
+</html>

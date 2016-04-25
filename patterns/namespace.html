@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+
+	//判断如果全局中有同名的命名空间则沿用，否则创建新的
+	var app=app||{};
+
+	//一个创建命名空间的通用函数，
+	//一次只能创建一个链
+	//避免因重复创建而覆盖原有属性的问题
+	//不用手动逐级的创建属性对象
+	app.namespace=function (nsString){
+		var parts=nsString.split('.'),//以“.”分隔返回数组
+			parent=app;//存储该顶层命名空间
+
+		console.info(parts);
+
+		if(parts[0]==='app'){//如果顶层命名空间名已存在则将其从数组中剥离
+			parts=parts.slice(1);
+		}
+
+		for(var i=0,len=parts.length; i<len; i+=1){
+			console.log('\t',parts[i]);
+			//如果该属性没有则创建
+			if(typeof parent[parts[i]]==='undefined'){
+				parent[parts[i]]={};
+			}
+			parent=parent[parts[i]];//为逐级创建，重新定义parent
+		}
+
+		return parent;//返回最底层对象的值，{} 空对象
+	};
+
+
+	app.namespace('moduleA');
+	app.namespace('moduleB.setting.color');
+	app.namespace('app.moduleC.setting.language');
+
+	console.warn(app);//最终只创建了一个命名空间
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
+

@@ -5,8 +5,8 @@
 <title>prototype</title>
 <script>
 	var instanceA=null,
-		 instanceA=null,
-		 watchThis=null;
+		instanceA=null,
+		watchThis=null;
 	
 	function ClassA(){
 		this.name='Warren';
@@ -28,7 +28,7 @@
 	
 	ClassA.prototype=new ClassB();//指向 ClassB 实例对象，将使 ClassA.prototype.__proto__ === ClassB.prototype
 	instanceA=new ClassA();
-	console.log(instanceA);
+	console.log('instanceA.age',instanceA.age);
 	
 	console.log('ClassA.prototype:',ClassA.prototype);//ClassA 的 prototype 指向 ClassB 的实例
 	console.log('ClassA.prototype.__proto__:',ClassA.prototype.__proto__);//ClassA 的 __proto__ 指向了 ClassB 的 prototype
