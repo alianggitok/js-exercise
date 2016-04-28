@@ -4,16 +4,17 @@
 <head>
 <title>Page Title</title>
 <script>
+	//将字符串解析为js执行
+	
 //	var str='alert(2)';
 //	eval(str);
 	
-	eval('var a;');
+	eval('var a; var a=1; alert(a)');
 </script>
 
 <script>
-	var a = 1;
 	delete a;
-	alert(typeof a);
+	console.log(a, typeof a);//throw an error, a is not defined
 
 </script>
 </head>
