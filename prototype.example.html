@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>prototype</title>
+<script>
+	function Shape(){}
+	Shape.prototype.x=0;
+	Shape.prototype.y=0;
+	Shape.prototype.move=function(x,y){
+		this.x=x;
+		this.y=y;
+	};
+
+	var s=new Shape();
+	s.move(1,2);
+
+	console.log(Shape.prototype.x,Shape.prototype.y);
+	console.log(Shape.x,Shape.y);
+	console.log(s.x,s.y);
+
+</script>
+
+</head>
+
+<body>
+
+</body>
+</html>
+

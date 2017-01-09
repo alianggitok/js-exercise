@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+	var array=[
+			{'name':'Jack Nicholson','age':40},
+			{'name':'Martin Campbell','age':40},
+			{'name':'Jack Nicklaus','age':45}
+		],
+		newArray=[];
+	
+	//根据过滤条件返回新数组，不改变原数组
+	newArray=array.filter(function(item){
+		if(item.name.indexOf('Jack')>-1){//如果当前对象包含Jack，则返回该值到新数组对象
+			return item;
+		}
+	});
+	
+	console.log(array,newArray);
+</script>
+</head>
+
+<body>
+
+</body>
+</html>

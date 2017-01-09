@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+	var array=[
+			{'name':'Jack Nicholson','age':40},
+			{'name':'Martin Campbell','age':40},
+			{'name':'Jack Nicklaus','age':45}
+		],
+		newArray=[];
+	
+	//遍历数组对象，
+	//可以在所遍历的当前元素做return一个新值，并作为新的数组对象的元素，
+	//这是与forEach()的一大区别
+	newArray=array.map(function(item,index){
+		console.log(item,index);
+		//item.age+=1//这样会改变原array的值，不鼓励
+		
+		var obj={};
+		obj.name=item.name;
+		obj.age=item.age+1;
+		return obj;//这样就不会改变原有的array的值，同时返回一个值到另一个数组对象中
+	});
+	
+	console.log(array,newArray);
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>

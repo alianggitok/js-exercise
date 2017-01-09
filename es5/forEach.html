@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Page Title</title>
+<script>
+	var array=[
+			{'name':'Jack Nicholson','age':40},
+			{'name':'Martin Campbell','age':40},
+			{'name':'Jack Nicklaus','age':45}
+		],
+		newArray=[];
+	
+	//遍历数组的每个元素，为每个数组元素执行一次回调
+	array.forEach(function(item,index){
+		console.log(item,index);
+		item.age=20;//这样做会改变array
+		newArray.push(item);
+	});
+	console.log(array,newArray);
+
+	//下面的方式可以保持array的原始性（不改变array）
+	newArray=[];
+	array.forEach(function(item,index){
+		console.log(item,index);
+		
+		var obj={}
+		obj.name=item.name;
+		obj.age=item.age+1;
+		newArray.push(obj);
+	});
+	console.log(array,newArray);
+	
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
